@@ -1,54 +1,83 @@
 <script>
 import { ref } from 'vue';
 
+export default {
+	data() {
+		return {
+			header: [
+				{ id: 1, title: 'All Tasks', route: '/' },
+				{ id: 2, title: 'Completed Tasks', route: '/completed' },
+			],
+		};
+	},
+	computed: {
+		isActive() {
+			return (route) => this.$route.path == route;
+		},
+	},
+};
 </script>
 
 <template>
 	<header class="header">
 		<div class="container">
-			<h1 class="text-4xl font-semibold mb-10">Tasks Manager</h1>
-			<div class="header__row flex items-center justify-between  pb-2">
+			<h1 class="text-3xl font-semibold mb-10">Tasks Manager</h1>
+			<div class="header__row flex items-center justify-between pb-2">
 				<div class="header__row-tasks-left flex items-center gap-5">
-					<button class="active">
-            All Tasks
-          </button>
-					<button>
-            Complited Tasks
-          </button>
+					<div
+						v-for="item in header"
+						:key="item.id"
+						class="cursor-pointer text-[14px] text-[#fff] hover:text-[#999] transition"
+						:class="{ active: isActive(item.route) }"
+					>
+						{{ item.title }}
+					</div>
 				</div>
 
-				<div class="header__row-tasks-right flex items-center gap-2">
-					<button>
-						<img src="/filter.svg" alt="" width="25" height="25" />
+				<div
+					class="header__row-tasks-right flex items-center gap-[0.5rem]"
+				>
+					<div
+						class="bg-[transparent] p-[0.35rem] rounded cursor-pointer hover:bg-[#222] transition"
+					>
+						<img
+							src="/src/constants/svgs/filter.svg"
+							alt=""
+							width="17"
+							height="17"
+						/>
+					</div>
+					<div
+						class="bg-[transparent] p-[0.35rem] rounded cursor-pointer hover:bg-[#222] transition"
+					>
+						<img
+							src="/src/constants/svgs/search.svg"
+							alt=""
+							width="18"
+							height="18"
+						/>
+					</div>
+					<div
+						class="bg-[transparent] p-[0.35rem] rounded cursor-pointer hover:bg-[#222] transition"
+					>
+						<img
+							src="/src/constants/svgs/ellipsis.svg"
+							alt=""
+							width="18"
+							height="18"
+						/>
+					</div>
+					<button
+						class="flex items-center justify-center gap-2 bg-white hover:bg-[#999] transition text-black rounded-md p-1 px-[0.65rem]"
+					>
+						<span class="text-[13px] font-medium">New</span>
+						<img
+							src="/src/constants/svgs/document-plus.svg"
+							alt=""
+							width="15"
+							height="15"
+						/>
 					</button>
-					<button>
-						<svg
-							width="23"
-							height="23"
-							viewBox="0 0 23 23"
-							fill="none"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<g clip-path="url(#clip0_519_3856)">
-								<path
-									fill-rule="evenodd"
-									clip-rule="evenodd"
-									d="M5.5536 10.2906C5.5536 9.66856 5.67612 9.05259 5.91417 8.47788C6.15223 7.90317 6.50115 7.38097 6.94101 6.94111C7.38087 6.50125 7.90307 6.15233 8.47778 5.91428C9.05249 5.67622 9.66846 5.5537 10.2905 5.5537C10.9126 5.5537 11.5285 5.67622 12.1033 5.91428C12.678 6.15233 13.2002 6.50125 13.64 6.94111C14.0799 7.38097 14.4288 7.90317 14.6669 8.47788C14.9049 9.05259 15.0274 9.66856 15.0274 10.2906C15.0274 11.5469 14.5284 12.7518 13.64 13.6401C12.7517 14.5285 11.5468 15.0275 10.2905 15.0275C9.03421 15.0275 7.82935 14.5285 6.94101 13.6401C6.05266 12.7518 5.5536 11.5469 5.5536 10.2906ZM10.2905 2.39575C9.05944 2.39588 7.84546 2.68391 6.74553 3.23682C5.64561 3.78973 4.69023 4.59221 3.95571 5.58015C3.22119 6.56808 2.72788 7.71411 2.5152 8.92667C2.30251 10.1392 2.37634 11.3847 2.73079 12.5637C3.08523 13.7426 3.71047 14.8223 4.55657 15.7166C5.40266 16.6108 6.44615 17.2948 7.60369 17.7139C8.76123 18.133 10.0007 18.2756 11.2232 18.1303C12.4457 17.985 13.6172 17.5558 14.6443 16.877L19.7001 21.934C19.9964 22.2302 20.3981 22.3966 20.817 22.3966C21.2359 22.3966 21.6377 22.2302 21.9339 21.934C22.2301 21.6378 22.3965 21.236 22.3965 20.8171C22.3965 20.3982 22.2301 19.9965 21.9339 19.7002L16.8769 14.6444C17.6636 13.4545 18.1131 12.0737 18.1778 10.6487C18.2425 9.22378 17.9199 7.80792 17.2444 6.55162C16.5689 5.29532 15.5656 4.24551 14.3411 3.51376C13.1167 2.78201 11.7169 2.39565 10.2905 2.39575Z"
-									fill="white"
-								/>
-							</g>
-							<defs>
-								<clipPath id="clip0_519_3856">
-									<rect width="23" height="23" fill="white" />
-								</clipPath>
-							</defs>
-						</svg>
-					</button>
-          <button>...</button>
-          <button class="flex items-center justify-center gap-1 bg-white text-black rounded-lg p-1">
-            <span>New</span>
-            <img src="/notebook.svg" alt="" width="20" height="20">
-          </button>
 				</div>
 			</div>
 		</div>
