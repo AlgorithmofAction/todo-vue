@@ -8,14 +8,23 @@ export default {
 				{ id: 1, title: 'All Tasks', route: '/' },
 				{ id: 2, title: 'Completed Tasks', route: '/completed' },
 			],
+			isActiveClass: false,
 		};
 	},
+
+	methods: {
+    toggleActive() {
+      this.isActiveClass = !this.isActiveClass;
+    }
+	},
+
 	computed: {
 		isActive() {
 			return (route) => this.$route.path == route;
 		},
 	},
-};
+}
+
 </script>
 
 <template>
@@ -35,7 +44,7 @@ export default {
 				</div>
 
 				<div
-					class="header__row-tasks-right flex items-center gap-[0.5rem]"
+					class="header__row-tasks-right flex items-center gap-[0.5rem] relative"
 				>
 					<div
 						class="bg-[transparent] p-[0.35rem] rounded cursor-pointer hover:bg-[#222] transition"
@@ -69,6 +78,7 @@ export default {
 					</div>
 					<button
 						class="flex items-center justify-center gap-2 bg-white hover:bg-[#999] transition text-black rounded-md p-1 px-[0.65rem]"
+						@click="toggleActive"
 					>
 						<span class="text-[13px] font-medium">New</span>
 						<img
@@ -78,6 +88,13 @@ export default {
 							height="15"
 						/>
 					</button>
+					
+					<label class="header__row-task-label absolute"
+					:class="{ 'header__row-task-label-active': isActiveClass }"
+					>
+						<input type="text" placeholder="Add task">
+						<button class="label-btn hover:-translate-y-1 transition">Add task</button>
+					</label>
 				</div>
 			</div>
 		</div>
